@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
+    public static Manager instance;
 
     public GameObject boomerPrefab;
     public GameObject hex;
-
+    public float fitness;
     private bool isTraning = false;
     private int populationSize = 50;
     private int generationNumber = 0;
@@ -15,7 +16,7 @@ public class Manager : MonoBehaviour
     private List<NeuralNetwork> nets;
     private bool leftMouseDown = false;
     private List<Boomerang> boomerangList = null;
-
+    
     private float timer = 15;
     void Timer()
     {
@@ -23,7 +24,10 @@ public class Manager : MonoBehaviour
         timer = 15;
     }
 
-
+    void Awake()
+    {
+        instance = this;
+    }
     void Update()
     {
         if (isTraning == false)
@@ -46,6 +50,7 @@ public class Manager : MonoBehaviour
                 for (int i = 0; i < populationSize; i++)
                 {
                     nets[i].SetFitness(0f);
+               
                 }
             }
 
@@ -55,6 +60,7 @@ public class Manager : MonoBehaviour
             isTraning = true;
             Invoke("Timer", 15f);
             CreateBoomerangBodies();
+           
         }
 
 
@@ -117,6 +123,7 @@ public class Manager : MonoBehaviour
             net.Mutate();
             nets.Add(net);
         }
+        
     }
 
     void OnGUI()
@@ -124,6 +131,8 @@ public class Manager : MonoBehaviour
         GUIStyle style = new GUIStyle();
         style.normal.textColor = Color.white;
         style.fontSize = 22;
+        
         GUI.Label(new Rect(10, 10, 100, 200), timer.ToString("0.0s"), style);
+        GUI.Label(new Rect(10, 40, 100, 200), fitness.ToString("0.0"), style);
     }
 }

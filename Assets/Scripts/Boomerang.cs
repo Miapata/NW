@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Boomerang : MonoBehaviour
 {
     private bool initilized = false;
     private Transform hex;
 
-    private NeuralNetwork net;
+    public NeuralNetwork net;
     private Rigidbody2D rBody;
     private Material[] mats;
 
+    public TextMeshProUGUI fitnessText;
     public bool entered;
     void Start()
     {
@@ -18,6 +20,11 @@ public class Boomerang : MonoBehaviour
         mats = new Material[transform.childCount];
         for (int i = 0; i < mats.Length; i++)
             mats[i] = transform.GetChild(i).GetComponent<Renderer>().material;
+    }
+
+    void OnMouseover()
+    {
+        Manager.instance.fitness=net.fitness;
     }
 
     void FixedUpdate()
@@ -72,7 +79,7 @@ public class Boomerang : MonoBehaviour
 
             rBody.velocity = 3 * transform.up;
             rBody.angularVelocity = 500f * output[0];
-
+           
             net.AddFitness((1f - Mathf.Abs(inputs[0])));
         }
     }

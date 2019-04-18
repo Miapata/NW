@@ -10,7 +10,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
     private int[] layers; //layers
     private float[][] neurons; //neuron matix
     private float[][][] weights; //weight matrix
-    private float fitness; //fitness of the network
+    public  float fitness; //fitness of the network
 
 
     /// <summary>
