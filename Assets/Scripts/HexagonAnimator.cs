@@ -15,20 +15,31 @@ public class HexagonAnimator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+     // Create a float called delta and assign it deltaTime
         float delta = Time.deltaTime;
+
+        // Create a vector3 for our euler angles
         Vector3 angles = transform.eulerAngles;
+
+        //Rotate the z axis
         angles.z += delta * 50f;
         transform.eulerAngles = angles;
-
+        
+        // Get the localScale;
         Vector3 localScale = transform.localScale;
         if (increasingSize == true)
         {
+            // Increase the scale
             localScale += new Vector3(delta, delta ,0f);
             if (localScale.x >= 2f)
             {
+                // Set the increasing scale boolean to false
                 increasingSize = false;
             }
         }
+
+        // Decrease the scale
         else if (increasingSize == false)
         {
             localScale -= new Vector3(delta, delta, 0f);
@@ -38,25 +49,10 @@ public class HexagonAnimator : MonoBehaviour {
             }
         }
 
+        //Set the scale
         transform.localScale = localScale;
 
         
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if(collider!=null)
-        if (collider.tag == "Boomerang")
-        {
-            if (collider.GetComponent<Boomerang>().entered == true)
-                return;
-
-            collider.GetComponent<Boomerang>().entered = true;
-            count++;
-            if (count > 5)
-            {
-                transform.position= new Vector2(Random.Range(-39, 39), Random.Range(-15, 15));
-            }
-        }
-    }
 }

@@ -29,11 +29,18 @@ public class Boomerang : MonoBehaviour
 
     void FixedUpdate()
     {
+        // If we started
         if (initilized == true)
         {
+            // Get distance
             float distance = Vector2.Distance(transform.position, hex.position);
+
+            // If our distance is greater than 20
+            // Set it to 20
             if (distance > 20f)
                 distance = 20f;
+            
+            // Change the color
             for (int i = 0; i < mats.Length; i++)
                 mats[i].color = new Color(distance / 20f, (1f - (distance / 20f)), (1f - (distance / 20f)));
 
@@ -43,6 +50,7 @@ public class Boomerang : MonoBehaviour
             float angle = transform.eulerAngles.z % 360f;
             if (angle < 0f)
                 angle += 360f;
+
 
             Vector2 deltaVector = (hex.position - transform.position).normalized;
 
@@ -75,15 +83,18 @@ public class Boomerang : MonoBehaviour
             inputs[0] = rad / (Mathf.PI);
 
 
+            // Create a new float array and set it to the result of FeedForward
             float[] output = net.FeedForward(inputs);
-
+            // Set the velocity forward
             rBody.velocity = 3 * transform.up;
+            //Set the angular velocity, this determines rotation
             rBody.angularVelocity = 500f * output[0];
-           
+             // Add fitness
             net.AddFitness((1f - Mathf.Abs(inputs[0])));
         }
     }
 
+    // Init the game
     public void Init(NeuralNetwork net, Transform hex)
     {
         this.hex = hex;
